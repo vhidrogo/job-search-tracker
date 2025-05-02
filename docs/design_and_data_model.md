@@ -11,7 +11,6 @@ A normalized, event-driven tracking system designed to capture the full lifecycl
 - **Ghostings**: Communication cut off after consideration talks.
 - **Interviews**: Each distinct interview event, with type, stage, and notes.
 - **Questions**: Coding or behavioral questions asked during interviews.
-- **Resumes**: Tracks major and minor resume versions used in applications, and changes over time for version traceability.
 
 ## Data Model (Tables)
 
@@ -37,6 +36,9 @@ A normalized, event-driven tracking system designed to capture the full lifecycl
 | Resume Major Version | String  | Major version of resume applied with  |
 | Resume Minor Version | String  | Minor version of resume applied with  |
 | Notes                | String  | Miscellaneous notes to track          |
+| Rejected             | String  | "Yes" if the application is found in the "Rejections" table. |
+| Closed               | String  | "Yes" if the application is found in the "Closures" table. |
+| Considered           | String  | "Yes" if the application is found in the "Considerations" table. |
 
 ### Rejections
 | Field                | Type    | Description                           |
@@ -44,8 +46,6 @@ A normalized, event-driven tracking system designed to capture the full lifecycl
 | Application ID       | String  | Foreign Key                           |
 | Rejection Source     | String  | Source of the rejection               |
 | Status Date          | Date    | Date notified or system updated       |
-| Resume Major Version | String  | Major version of resume applied with  |
-| Resume Minor Version | String  | Minor version of resume applied with  |
 
 ### Closures
 | Field                | Type    | Description                           |
@@ -53,8 +53,6 @@ A normalized, event-driven tracking system designed to capture the full lifecycl
 | Application ID       | String  | Foreign Key                           |
 | Notified Date        | Date    | Date notified or system updated       |
 | Reason               | String  | Reason job was closed                 |
-| Resume Major Version | String  | Major version of resume applied with  |
-| Resume Minor Version | String  | Minor version of resume applied with  |
 
 ### Considerations
 | Field                | Type    | Description                                     |
@@ -62,19 +60,15 @@ A normalized, event-driven tracking system designed to capture the full lifecycl
 | Application ID       | String  | Foreign Key                                     |
 | Date Initiated       | Date    | Date application became under consideration     |
 | Initiation Method    | String  | How the consideration process triggered         |
-| Resume Link          | String  | Link to specific resume version doc             |
-| JD Link              | String  | Link to saved job description                   |
-| Interview Doc Link   | String  | Link to interview notes doc                     |
-| Resume Major Version | String  | Major version of resume applied with            |
-| Resume Minor Version | String  | Minor version of resume applied with            |
+| Rejected             | String  | "Yes" if the consideration was later rejected   |
+| Ghosted              | String  | "Yes" if communication stopped after this stage |
+| Offer                | String  | "Yes" if the consideration resulted in an offer |
 
 ### Ghostings
 | Field                | Type    | Description                           |
 |:---------------------|:--------|:--------------------------------------|
 | Application ID       | String  | Foreign Key                           |
 | Last Contact         | String  | Last contact with the company         |
-| Resume Major Version | String  | Major version of resume applied with  |
-| Resume Minor Version | String  | Minor version of resume applied with  |
 
 ### Interviews
 | Field             | Type    | Description                                     |
@@ -93,24 +87,54 @@ A normalized, event-driven tracking system designed to capture the full lifecycl
 | Description       | String  | Question description                  |
 | Notes             | String  | Any notes about the question/answer   |
 
+### Offers
+| Field                | Type    | Description                           |
+|:---------------------|:--------|:--------------------------------------|
+| Application ID       | String  | Foreign Key                           |
+| Offer Date           | Date    | Date offer was extended               |
+| Cash Salary          | Number  | Base annual cash salary               |
+| Signing Bonus        | Number  | One-time signing bonus amount         |
+| Annual Bonus         | Number  | Annual performance bonus target       |
+| Stock Compensation   | Number  | Estimated annualized stock value      |
+| 401K Company Match   | String  | Description of 401K match program     |
+| PTO Days             | Number  | Number of paid time off days          |
+| Holidays             | Number  | Number of paid holidays               |
+| Medical Covered      | String  | Description of medical coverage       |
+| Dental Covered       | String  | Description of dental coverage        |
+| Vision Covered       | String  | Description of vision coverage        |
+| Other Benefit Notes  | String  | Any additional perks or benefits      |
+
 ### Resumes
-| Field             | Type    | Description                                      |
-|:------------------|:--------|:-------------------------------------------------|
-| Major Version     | String  | Major version number (e.g. `v3`)                  |
-| Minor Version     | String  | Minor version number (e.g. `v3.2`)                |
-| Date              | Date    | Date this resume version was created/edited      |
-| Role              | String  | Target job role this resume was tailored for      |
-| Link              | String  | Link to the saved resume document                 |
-| Changes Doc       | String  | Link to a doc or notes summarizing changes made   |
+| Field             | Type    | Description                           |
+|:------------------|:--------|:--------------------------------------|
+| Major Version     | String  | Major version of the resume           |
+| Minor Version     | String  | Minor version of the resume           |
+| Date              | Date    | Date the resume version was created   |
+| Role              | String  | Role this resume version applies to   |
+| Link              | String  | Link to the resume document           |
+| Changes Doc       | String  | Link to document detailing changes in this version |
+
+## Reverse Foreign Keys
+In the **Applications** table, additional columns have been introduced to track reverse foreign keys for related events. These columns use the `IF(ISNUMBER(MATCH()))` formula to check whether an application has corresponding records in the **Rejections** and **Considerations** tables. The result is displayed as "Yes" for any matches, simplifying reporting without having to duplicate data across tables.
+
+For example, the **Rejected** column in the **Applications** table uses the following formula:
+```excel
+=IF(ISNUMBER(MATCH(A2, Rejections_Application_ID, 0)), "Yes", "")
+```
+
+Where A2 refers to the Application ID and "Rejections_Application_ID" is named range referencing the `Application ID` column in `Rejections`. This approach allows easy summarization of related events and attributes, such as calculating rejection rates by job source or tracking application outcomes, without the need for heavy normalization.
 
 ## Relationships
 - Applications → Rejections (1:1)
 - Applications → Closures (1:1)
 - Applications → Considerations (1:1)
 - Applications → Ghostings (1:1)
-- Application → Interviews (1:N)
+- Applications → Offers (1:1)
+- Applications → Interviews (1:N)
 - Interviews → Questions (1:N)
-- Applications → Resumes (via embedded Resume Major/Minor Versions — denormalized for immutable historical traceability)
+- Considerations → Rejections (1:1)
+- Considerations → Ghostings (1:1)
+- Considerations → Offers (1:1)
 
 ## Benefits of Event-Driven, Normalized Structure
 - No redundant updates — records are immutable once created.
@@ -118,20 +142,10 @@ A normalized, event-driven tracking system designed to capture the full lifecycl
 - Easier analysis and reporting using structured queries.
 - Scalable schema for additional future tracking (e.g., rejection reasons, interview feedback).
 
-## Denormalization Note: Resume Versions in Related Tables
-
-Although this system is designed around a normalized, event-driven model, the **Resume Major Version** and **Resume Minor Version** fields are intentionally duplicated in dependent event tables (like Rejections, Considerations, and Ghostings).
-
-**Reason:**  
-This simplifies reporting and analysis, particularly within a spreadsheet-based implementation where lookups across multiple tables are more cumbersome and performance-sensitive than in a relational database environment. Embedding resume version identifiers directly into event records allows for straightforward reporting and filtering by resume version without relying on cross-table formulas or complex joins.
-
-**Trade-off:**  
-This sacrifices strict normalization in favor of pragmatic, performant reporting within the limitations of spreadsheet formulas. In a SQL-based implementation, this duplication would be unnecessary — resume version metadata would remain centralized in the Applications table, and reporting would rely on query joins.
-
 ## Future Improvements
 - Build a simple UI for searching Applications, Considerations, and Interview records.
 - Visual dashboards for job search progress.
 
 ---
 
-This documentation will evolve alongside the system’s implementation. All changes will be versioned in the `Job Search Tracker` GitHub repo.
+This documentation will evolve alongside the system’s implementation. All changes will be versioned in the Job Search Tracker GitHub repo.
