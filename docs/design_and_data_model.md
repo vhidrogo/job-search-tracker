@@ -27,12 +27,14 @@ A normalized, event-driven tracking system designed to capture the full lifecycl
 | Yrs XP Min           | Number  | Minimum years experience require      |
 | Salary Min           | Number  | Salary range minimum from listing     |
 | Salary Max           | Number  | Salary range maximum from listing     |
+| Matching Skills      | String  | Tools/languages/frameworks you already have experience with     |
+| Matching Experience  | String  | Relevant domain/industry/role experience you already possess    |
+| Skill Gaps           | String  | Required tools/languages not in your skill set                |
+| Experience Gaps      | String  | Required domain/industry/role experience not in your background|
 | Specialization       | String  | Optional specialization i.e. backend  |
-| Resume Version       | String  | Resume version applied with           |
-| Skill Gaps           | String  | Unfamiliar tools/languages required   |
-| Experience Gaps      | String  | Unfamiliar domain experience required |
-| Notes                | String  | Miscellaneous notes to track          |
 | Desired Salary       | Number  | Requested salary expectations answer  |
+| Resume Version       | String  | Resume version applied with           |
+| Notes                | String  | Miscellaneous notes to track          |
 
 ### Rejections
 | Field             | Type    | Description                           |
