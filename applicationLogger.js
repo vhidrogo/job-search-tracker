@@ -85,7 +85,7 @@ function resetApplicationInputValues() {
     ]
 
     const defaults = {
-        'Date': '=today()',
+        'Applied Date': '=today()',
         'Listing Job Title': '=ApplicationLogger_Role',
         'Resume Version': `=if(${CONFIG.OVERRIDE_RESUME_RANGE_NAME}="",ApplicationLogger_SuggestedResume,${CONFIG.OVERRIDE_RESUME_RANGE_NAME})`
     }
