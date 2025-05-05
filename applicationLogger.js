@@ -7,9 +7,7 @@ const CONFIG = {
 
 function onApplicationLoggerLogClick() {
     logApplication();
-    resetApplicationInputValues();
-    getNamedRange(CONFIG.OVERRIDE_RESUME_RANGE_NAME).clearContent();
-    getNamedRange(CONFIG.LISTING_JOB_TITLE_RANGE_NAME).activate();
+    resetApplicationLoggerUI();
 }
 
 function logApplication() {
@@ -66,6 +64,12 @@ function generateReverseForeignKeyFormulas() {
     return relatedTables.map(table =>
         `=IF(ISNUMBER(MATCH(INDIRECT("A" & ROW()), ${table}_Application_ID, 0)), "Yes", "No")`
     );
+}
+
+function resetApplicationLoggerUI() {
+    resetApplicationInputValues();
+    getNamedRange(CONFIG.OVERRIDE_RESUME_RANGE_NAME).clearContent();
+    getNamedRange(CONFIG.LISTING_JOB_TITLE_RANGE_NAME).activate();
 }
 
 function resetApplicationInputValues() {
