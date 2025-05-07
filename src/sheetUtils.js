@@ -1,3 +1,6 @@
+const { convert2DArrayToObjects } = require("./utils/convert2DArrayToObjects");
+const { filter2DArrayRows } = require("./utils/filter2DArrayRows");
+
 /**
  * Writes the provided input values back to the sheet UI range.
  *
@@ -87,4 +90,18 @@ function getSheetData(sheetName) {
     const sheet = getSheet(sheetName);
 
     return sheet.getDataRange().getValues();
+}
+
+function findSheetRows(sheetName, criteriaMap) {
+    const data = getSheetData(sheetName);
+    const matches = filter2DArrayRows(data, criteriaMap);
+
+    if (matches.length <= 1) {
+        return []; // No data rows found
+    }
+
+    const headers = matches[0];
+    const dataRows = matches.slice(1);
+
+    return convert2DArrayToObjects(headers, dataRows);
 }
