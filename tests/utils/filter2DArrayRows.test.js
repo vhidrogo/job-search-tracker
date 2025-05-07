@@ -9,10 +9,11 @@ const testData = [
 
 describe('filter2DArrayRows', () => {
     it('filters single matching row', () => {
-        const searchField = 'Company';
-        const searchValue = 'Amazon.com';
+        const criteriaMap = {
+            'Company': 'Amazon.com'
+        };
 
-        result = filter2DArrayRows(testData, searchField, searchValue);
+        const result = filter2DArrayRows(testData, criteriaMap);
 
         expect(result).toEqual([
             ['ID', 'Company', 'Location'],
@@ -21,47 +22,80 @@ describe('filter2DArrayRows', () => {
     });
 
     it('filters multiple matching rows', () => {
-        const searchField = 'Location';
-        const searchValue = 'Seattle';
+        const criteriaMap = {
+            'Location': 'Seattle'
+        };
 
-        result = filter2DArrayRows(testData, searchField, searchValue);
+        const result = filter2DArrayRows(testData, criteriaMap);
 
         expect(result.length).toBe(3);
     });
 
     it('filters case insensitive', () => {
-        const searchField = 'Location';
-        const searchValue = 'seattle';
+        const criteriaMap = {
+            'Location': 'seattle'
+        };
 
-        result = filter2DArrayRows(testData, searchField, searchValue);
+        const result = filter2DArrayRows(testData, criteriaMap);
 
         expect(result.length).toBe(3);
     });
 
     it('filters for partial match', () => {
-        const searchField = 'Location';
-        const searchValue = 'sea';
+        const criteriaMap = {
+            'Location': 'sea'
+        };
 
-        result = filter2DArrayRows(testData, searchField, searchValue);
+        const result = filter2DArrayRows(testData, criteriaMap);
 
         expect(result.length).toBe(3);
     });
 
     it('returns empty array when no match', () => {
-        const searchField = 'Location';
-        const searchValue = 'San Francisco';
+        const criteriaMap = {
+            'Location': 'San Francisco'
+        };
 
-        result = filter2DArrayRows(testData, searchField, searchValue);
+        const result = filter2DArrayRows(testData, criteriaMap);
 
         expect(result.length).toBe(0);
     });
 
-    it('throws error if search field not found', () => {
-        const searchField = 'Invalid';
-        const searchValue = 'Hello world';
+    it('throws error if header not found', () => {
+        const criteriaMap = {
+            'Invalid': 'Hello world'
+        };
 
         expect(() => {
-            filter2DArrayRows(testData, searchField, searchValue);
-        }).toThrow('Field "Invalid" not found in headers.');
+            filter2DArrayRows(testData, criteriaMap);
+        }).toThrow('Required column "Invalid" is missing from the data.');
+    });
+
+    it('filters for multiple matching criteria', () => {
+        const criteriaMap = {
+            'Location': 'Seattle',
+            'Company': 'Amazon.com'
+        };
+
+        const result = filter2DArrayRows(testData, criteriaMap);
+
+        expect(result.length).toBe(2);
+    });
+
+    it('returns empty array when only some criteria match', () => {
+        const criteriaMap = {
+            'Location': 'Seattle',
+            'Company': 'Expedia'
+        };
+
+        const result = filter2DArrayRows(testData, criteriaMap);
+
+        expect(result.length).toBe(0);
+    });
+
+    it('returns empty array when data is empty', () => {
+        const criteriaMap = { 'Company': 'Amazon.com' };
+        const result = filter2DArrayRows([], criteriaMap);
+        expect(result.length).toBe(0);
     });
 });
