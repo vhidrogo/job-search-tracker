@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "node build.js"
   },
   "devDependencies": {
     "@types/google-apps-script": "^1.0.97",
