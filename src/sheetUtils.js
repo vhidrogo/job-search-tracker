@@ -1,3 +1,6 @@
+const { convert2DArrayToObjects } = require("./utils/convert2DArrayToObjects");
+const { filter2DArrayRows } = require("./utils/filter2DArrayRows");
+
 /**
  * Writes the provided input values back to the sheet UI range.
  *
@@ -45,6 +48,21 @@ function getNamedRange(rangeName) {
 }
 
 /**
+ * Retrieves a sheet by name from the active spreadsheet.
+ *
+ * @param {string} sheetName - The name of the sheet to retrieve.
+ * @returns {GoogleAppsScript.Spreadsheet.Sheet} The requested sheet object.
+ * @throws Will throw an error if the sheet is not found.
+ */
+function getSheet(sheetName) {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+    if (!sheet) {
+      throw new Error(`${sheetName} sheet not found.`);
+    }
+    return sheet;
+  }
+
+/**
  * Appends a row of values to the specified sheet in the active spreadsheet.
  * Optionally prepends a generated UUID as an insert ID.
  *
@@ -54,14 +72,36 @@ function getNamedRange(rangeName) {
  * @throws {Error} If the specified sheet is not found.
  */
 function appendRowToSheet(sheetName, rowValues, insertId=false) {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
-    if (!sheet) {
-        throw new Error(`Sheet "${sheetName}" not found.`);
-    }
+    const sheet = getSheet(sheetName);
 
     if (insertId) {
         rowValues = [Utilities.getUuid(), ...rowValues];
     }
     
     sheet.appendRow(rowValues);
+}
+
+/**
+ * 
+ * @param {string} sheetName - The name of the sheet to retrieve data from.
+ * @returns {Array[]} The sheet data as a 2D array.
+ */
+function getSheetData(sheetName) {
+    const sheet = getSheet(sheetName);
+
+    return sheet.getDataRange().getValues();
+}
+
+function findSheetRows(sheetName, criteriaMap) {
+    const data = getSheetData(sheetName);
+    const matches = filter2DArrayRows(data, criteriaMap);
+
+    if (matches.length <= 1) {
+        return []; // No data rows found
+    }
+
+    const headers = matches[0];
+    const dataRows = matches.slice(1);
+
+    return convert2DArrayToObjects(headers, dataRows);
 }
