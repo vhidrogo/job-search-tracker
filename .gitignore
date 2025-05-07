@@ -1,11 +1,4 @@
 # CLASP config file (contains project ID info)
 .clasp.json
-
-# Node modules (if you ever add tools)
 node_modules/
-
-# Optional: Environment/config files
-.env
-
-# macOS-specific junk
-.DS_Store
+package-lock.json
