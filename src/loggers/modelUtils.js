@@ -1,20 +1,19 @@
 /**
- * Finds an application in the Applications sheet based on up to two search criteria.
+ * Finds an application in the Applications sheet based on a required company name and optional sub-field criteria.
  *
- * @param {string} searchField - The required field to search by.
- * @param {string} searchValue - The value for the required search field.
- * @param {string} [optionalSearchField] - An optional additional field to search by.
+ * @param {string} companyName - The required company name to search by.
+ * @param {string} [optionalSearchField] - An optional additional field to narrow down results.
  * @param {string} [optionalSearchValue] - The value for the optional search field.
  * @returns {Object} The application object if exactly one match is found.
- * @throws Will throw an error if no match is found or if multiple matches exist.
+ * @throws Will throw an error if no match is found, multiple matches exist, or if too many matches (>10) are returned.
  */
-function findApplication(searchField, searchValue, optionalSearchField, optionalSearchValue) {
-    if (!searchField || !searchValue) {
-        throw new Error('A required search field and value must be provided.');
+function findApplication(companyName, optionalSearchField, optionalSearchValue) {
+    if (!companyName) {
+        throw new Error('At least a company name must be provided to identify the application.');
     }
 
     const searchCriteria = {
-        [searchField]: searchValue
+        Company: companyName
     };
     if (optionalSearchField && optionalSearchValue) {
         searchCriteria[optionalSearchField] = optionalSearchValue
@@ -31,7 +30,9 @@ function findApplication(searchField, searchValue, optionalSearchField, optional
     }
 
     if (matches.length > 10) {
-        throw new Error(`Too many applications (${matches.length}) found. Add additional search criteria.`);
+        throw new Error(
+            `Too many applications (${matches.length}) found for company ${companyName}. Try using a uniquely identifying sub-field.`
+        );
     }
 
     const matchSummary = matches
@@ -39,7 +40,7 @@ function findApplication(searchField, searchValue, optionalSearchField, optional
         .join('\n');
 
     SpreadsheetApp.getUi().alert(
-        `Multiple applications found:\n\n${matchSummary}\n\nPlease refine your search criteria.`
+        `Multiple applications found for company ${companyName}:\n\n${matchSummary}\n\nTry using a uniquely identifying sub-field.`
     );
 
     throw new Error('Multiple applications found. Refine your search criteria.');
