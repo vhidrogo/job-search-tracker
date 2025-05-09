@@ -42,3 +42,46 @@ function validateInputs(inputsMap, requiredFields) {
         }
     }
 }
+
+/**
+ * Resets the sheet UI by clearing input fields, applying default values, and
+ * setting them on the sheet UI.
+ *
+ * @param {string} inputsRangeName - The name of the inputs range on the sheet.
+ * @param {string[]} subsetClearFields - Array of input keys to clear; if empty, clears all.
+ * @param {Object<string, string>} defaults - Object of default values to apply after clearing.
+ */
+function resetSheetUI(inputsRangeName, subsetClearFields, defaults) {
+    const inputsMap = getInputsFromSheetUI(inputsRangeName);
+    clearInputs(inputsMap, subsetClearFields);
+    if (Object.keys(defaults).length) {
+        setDefaults(inputsMap, defaults);
+    }
+    setInputsOnSheetUI(inputsRangeName, inputsMap);
+}
+
+/**
+ * Clears specified input fields in the inputs Map.
+ *
+ * @param {Map<string, string>} inputsMap - Map of input keys to their current values.
+ * @param {string[]} subsetFields - Array of input keys to clear; if empty, clears all.
+ */
+function clearInputs(inputsMap, subsetFields) {
+    for (const key of inputsMap.keys()) {
+        if (!subsetFields.length || subsetFields.includes(key)) {
+            inputsMap.set(key, '');
+        }
+    }
+}
+
+/**
+ * Sets default values for specified inputs in the inputs Map.
+ *
+ * @param {Map<string, string>} inputsMap - Map of input keys to their current values.
+ * @param {Object<string, string>} defaults - Object of default values to apply.
+ */
+function setDefaults(inputsMap, defaults) {
+    for (const [key, value] of Object.entries(defaults)) {
+        inputsMap.set(key, value);
+    }
+}
