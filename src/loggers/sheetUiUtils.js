@@ -51,7 +51,7 @@ function validateInputs(inputsMap, requiredFields) {
  * @param {string[]} subsetClearFields - Array of input keys to clear; if empty, clears all.
  * @param {Object<string, string>} defaults - Object of default values to apply after clearing.
  */
-function resetSheetUI(inputsRangeName, subsetClearFields, defaults) {
+function resetSheetUI(inputsRangeName, subsetClearFields = [], defaults = {}) {
     const inputsMap = getInputsFromSheetUI(inputsRangeName);
     clearInputs(inputsMap, subsetClearFields);
     if (Object.keys(defaults).length) {
