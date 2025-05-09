@@ -1,3 +1,5 @@
+const APPLICATIONS_SHEET_NAME = 'Applications';
+
 /**
  * Finds an application in the Applications sheet based on a required company name and optional sub-field criteria.
  *
@@ -19,7 +21,7 @@ function findApplication(companyName, optionalSearchField, optionalSearchValue) 
         searchCriteria[optionalSearchField] = optionalSearchValue
     }
     
-    const matches = findSheetRows('Applications', searchCriteria);
+    const matches = findSheetRows(APPLICATIONS_SHEET_NAME, searchCriteria);
 
     if (matches.length === 0) {
         throw new Error(`No application found for criteria: ${JSON.stringify(searchCriteria)}`);
