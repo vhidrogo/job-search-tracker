@@ -28,3 +28,17 @@ function setInputsOnSheetUI(rangeName, inputsMap) {
     range.setValues(updatedValues);
 }
 
+/**
+ * Validates that all required fields exist in the inputs map and are non-empty strings.
+ *
+ * @param {Map<string, string>} inputsMap - A map of input field names to their string values.
+ * @param {string[]} requiredFields - An array of field names that are required.
+ * @throws {Error} If any required field is missing or has an empty value.
+ */
+function validateInputs(inputsMap, requiredFields) {
+    for (const field of requiredFields) {
+        if (!inputsMap.has(field) || inputsMap.get(field).toString().trim() === '') {
+            throw new Error(`Missing required input ${field}.`);
+        }
+    }
+}
