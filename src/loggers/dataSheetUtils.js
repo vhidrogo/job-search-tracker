@@ -1,35 +1,5 @@
-const { convert2DArrayToObjects } = require("./utils/convert2DArrayToObjects");
-const { filter2DArrayRows } = require("./utils/filter2DArrayRows");
-
-/**
- * Writes the provided input values back to the sheet UI range.
- *
- * @param {string} rangeName - The name of the named range to update.
- * @param {Map<string, string|number>} inputsMap - A Map containing label-value pairs to write to the sheet.
- */
-function setInputsOnSheetUI(rangeName, inputsMap) {
-    const range = getNamedRange(rangeName);
-    const updatedValues = Array.from(inputsMap, ([label, value]) => [label, value]);
-
-    range.setValues(updatedValues);
-}
-
-/**
- * Retrieves input values from a two-column named range in the active spreadsheet UI,
- * and returns them as a Map with the first column as keys and the second column as values.
- *
- * @param {string} rangeName - The name of the named range containing the input labels and values.
- * @returns {Map<string, any>} A Map where keys are input labels and values are the corresponding input values.
- * @throws {Error} If the named range is not found.
- */
-function getInputsFromSheetUI(rangeName) {
-    const range = getNamedRange(rangeName);
-    if (range.getWidth() !== 2) {
-        throw new Error(`Expected a two-column range for ${rangeName}, but got ${range.getWidth()}.`);
-    }
-
-    return new Map(range.getValues());
-}
+const { convert2DArrayToObjects } = require("../utils/convert2DArrayToObjects");
+const { filter2DArrayRows } = require("../utils/filter2DArrayRows");
 
 /**
  * Retrieves a named range from the active spreadsheet.
@@ -45,6 +15,17 @@ function getNamedRange(rangeName) {
     }
     
     return range;
+}
+
+/**
+ * Retrieves the value from a named range in the active spreadsheet.
+ *
+ * @param {string} rangeName - The name of the named range to retrieve the value from.
+ * @returns {*} The value of the specified named range.
+ */
+function getNamedRangeValue(rangeName) {
+    const range = getNamedRange(rangeName);
+    return range.getValue();
 }
 
 /**
@@ -92,6 +73,13 @@ function getSheetData(sheetName) {
     return sheet.getDataRange().getValues();
 }
 
+/**
+ * Finds and returns rows from a sheet that match the provided criteria.
+ *
+ * @param {string} sheetName - The name of the sheet to search.
+ * @param {Object.<string, *>} criteriaMap - An object mapping header names to desired values for filtering rows.
+ * @returns {Object[]} An array of objects representing the matching rows, where each object maps headers to cell values.
+ */
 function findSheetRows(sheetName, criteriaMap) {
     const data = getSheetData(sheetName);
     const matches = filter2DArrayRows(data, criteriaMap);
