@@ -93,3 +93,16 @@ function findSheetRows(sheetName, criteriaMap) {
 
     return convert2DArrayToObjects(headers, dataRows);
 }
+
+/**
+ * Generates an array of row values from optional prefix values, an inputs map, and optional suffix values.
+ *
+ * @param {Map<string, any>} inputsMap - A Map containing input field names and their values.
+ * @param {Array<any>} [prefixValues=[]] - An array of values to prepend to the row.
+ * @param {Array<any>} [suffixValues=[]] - An array of values to append to the row.
+ * @returns {Array<any>} A combined array of prefix values, input values, and suffix values.
+ */
+function generateRowValues(inputsMap, prefixValues = [], suffixValues = []) {
+  const inputValues = Array.from(inputsMap.values());
+  return [...prefixValues, ...inputValues, ...suffixValues];
+}
