@@ -26,7 +26,7 @@ function filter2DArrayRows(data, criteriaMap) {
 
     const filtered = data.slice(1).filter(row =>
       Object.entries(criteriaMap).every(([key, value]) =>
-        row[headerIndices[key]].toLowerCase().includes(value.toLowerCase())
+        row[headerIndices[key]].toString().toLowerCase().includes(value.toString().toLowerCase())
       )
     );
 
