@@ -38,7 +38,12 @@ function findApplication(companyName, optionalSearchField, optionalSearchValue) 
     }
 
     const matchSummary = matches
-        .map((app, index) => `${index + 1}. Date: ${formattedDate(app['Applied Date'])}, Listing Job Title: ${app['Listing Job Title']}`)
+        .map((app, index) => (
+            `${index + 1}. Date: ${formattedDate(app['Applied Date'])}, ` +
+            `Location: ${app['Location']}, ` +
+            `Listing Job Title: ${app['Listing Job Title']}, ` +
+            `Notes: ${app['Notes']}`
+        ))
         .join('\n');
 
     SpreadsheetApp.getUi().alert(
