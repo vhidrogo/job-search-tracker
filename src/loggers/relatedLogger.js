@@ -16,6 +16,23 @@ function onRejectionLoggerLogClick() {
     });
 }
 
+function onClosureLoggerLogClick() {
+    const requiredFields = [
+        'Notified Date',
+        'Reason'
+    ];
+
+    const defaultsMap = {
+        'Notified Date': '=today()',
+    };
+
+    relatedLoggerWorkflow({
+        relatedName: 'Closure',
+        requiredFields: requiredFields,
+        defaultsMap: defaultsMap
+    });
+}
+
 function relatedLoggerWorkflow({
     relatedName,
     requiredFields,
