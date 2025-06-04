@@ -29,6 +29,16 @@ function getNamedRangeValue(rangeName) {
 }
 
 /**
+ * Sets the value of a named range in the active Google Sheets spreadsheet.
+ *
+ * @param {string} name - The name of the named range to update.
+ * @param {*} value - The value to set for the named range.
+ */
+function setNamedRangeValue(name, value) {
+    getNamedRange(name).setValue(value);
+}
+
+/**
  * Retrieves a sheet by name from the active spreadsheet.
  *
  * @param {string} sheetName - The name of the sheet to retrieve.
@@ -107,4 +117,9 @@ function generateRowValues(inputsMap, prefixValues = [], suffixValues = []) {
   return [...prefixValues, ...inputValues, ...suffixValues];
 }
 
-module.exports = { getNamedRangeValue }
+module.exports = {
+    findSheetRows,
+    getNamedRange,
+    getNamedRangeValue,
+    setNamedRangeValue
+}
