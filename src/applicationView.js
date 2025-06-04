@@ -29,7 +29,7 @@ function onFindClick() {
     outputApplicationDetails(applicationAttributes);
 
     const outcome = getOutcome(applicationAttributes);
-    outputOutCome(outcome);
+    outputOutcome(outcome);
     
     if (outcome === 'Considered') {
         const considerationDetails = getConsiderationDetails(applicationAttributes['ID']);
@@ -57,7 +57,7 @@ function getConsiderationDetails(applicationId) {
     return findSheetRows('Considerations', criteria)[0];
 }
 
-function outputOutCome(outcome) {
+function outputOutcome(outcome) {
     const cell = getNamedRange(NAMED_RANGES.ApplicationView.OUTCOME);
     cell.setValue(outcome);
     cell.setBackground(OUTCOME_CONDITIONAL_FORMATTING[outcome].BACKGROUND);
