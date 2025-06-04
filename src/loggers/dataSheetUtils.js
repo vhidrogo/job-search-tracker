@@ -106,3 +106,5 @@ function generateRowValues(inputsMap, prefixValues = [], suffixValues = []) {
   const inputValues = Array.from(inputsMap.values());
   return [...prefixValues, ...inputValues, ...suffixValues];
 }
+
+module.exports = { getNamedRangeValue }

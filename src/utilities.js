@@ -54,3 +54,5 @@ function to1DArray(twoDarray) {
 function to2DColumnArray(array) {
   return array.map(value => [value]);
 }
+
+module.exports = { formattedDate }

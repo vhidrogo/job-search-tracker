@@ -35,6 +35,7 @@ function onClosureLoggerLogClick() {
 
 function relatedLoggerWorkflow({
     relatedName,
+    applicationId = '',
     requiredFields,
     subsetClearFields = [],
     defaultsMap = {},
@@ -42,7 +43,6 @@ function relatedLoggerWorkflow({
 }) {
     const uiSheetName = relatedName + 'Logger'
     const appSearchInputsRangeName = uiSheetName + '_AppSearchInputs';
-    const applicationId = getApplicationId(appSearchInputsRangeName);
 
     const modelInputsRangeName = uiSheetName + '_ModelInputs';
     const inputsMap = getInputsFromSheetUI(modelInputsRangeName);
@@ -62,3 +62,5 @@ function getApplicationId(searchInputsRangeName) {
 
     return application['ID'];
 }
+
+module.exports = { relatedLoggerWorkflow }
