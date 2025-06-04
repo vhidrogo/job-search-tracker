@@ -85,3 +85,5 @@ function setDefaults(inputsMap, defaults) {
         inputsMap.set(key, value);
     }
 }
+
+module.exports = { getInputsFromSheetUI, setInputsOnSheetUI }
