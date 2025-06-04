@@ -33,6 +33,27 @@ function onClosureLoggerLogClick() {
     });
 }
 
+function onConsiderationLoggerLogClick() {
+    const requiredFields = [
+        'Initiation Method',
+        'Date Initiated',
+    ];
+
+    const defaultsMap = {
+        'Initiation Method': 'Recruiter',
+        'Date Initiated': '=today()',
+    };
+
+    // TODO: JD Link, Interview Notes Doc (need to find application first) 
+    const suffixValues = [];
+
+    relatedLoggerWorkflow({
+        relatedName: 'Consideration',
+        requiredFields: requiredFields,
+        defaultsMap: defaultsMap
+    });
+}
+
 function relatedLoggerWorkflow({
     relatedName,
     requiredFields,
