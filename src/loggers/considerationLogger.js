@@ -9,7 +9,7 @@ function onConsiderationLoggerLogClick() {
     ];
 
     const defaultsMap = {
-        'Initiation Method': 'Recruiter',
+        'Initiation Method': 'Callback',
         'Date Initiated': '=today()',
     };
 
