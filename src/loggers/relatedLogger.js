@@ -33,29 +33,9 @@ function onClosureLoggerLogClick() {
     });
 }
 
-function onConsiderationLoggerLogClick() {
-    const requiredFields = [
-        'Initiation Method',
-        'Date Initiated',
-    ];
-
-    const defaultsMap = {
-        'Initiation Method': 'Recruiter',
-        'Date Initiated': '=today()',
-    };
-
-    // TODO: JD Link, Interview Notes Doc (need to find application first) 
-    const suffixValues = [];
-
-    relatedLoggerWorkflow({
-        relatedName: 'Consideration',
-        requiredFields: requiredFields,
-        defaultsMap: defaultsMap
-    });
-}
-
 function relatedLoggerWorkflow({
     relatedName,
+    applicationId = '',
     requiredFields,
     subsetClearFields = [],
     defaultsMap = {},
@@ -63,7 +43,6 @@ function relatedLoggerWorkflow({
 }) {
     const uiSheetName = relatedName + 'Logger'
     const appSearchInputsRangeName = uiSheetName + '_AppSearchInputs';
-    const applicationId = getApplicationId(appSearchInputsRangeName);
 
     const modelInputsRangeName = uiSheetName + '_ModelInputs';
     const inputsMap = getInputsFromSheetUI(modelInputsRangeName);
@@ -83,3 +62,5 @@ function getApplicationId(searchInputsRangeName) {
 
     return application['ID'];
 }
+
+module.exports = { relatedLoggerWorkflow }
