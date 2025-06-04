@@ -52,3 +52,5 @@ function findApplication(companyName, optionalSearchField, optionalSearchValue) 
 
     throw new Error('Multiple applications found. Refine your search criteria.');
 }
+
+module.exports = { findApplication }
