@@ -86,4 +86,8 @@ function setDefaults(inputsMap, defaults) {
     }
 }
 
-module.exports = { getInputsFromSheetUI, setInputsOnSheetUI }
+module.exports = {
+    getInputsFromSheetUI,
+    setInputsOnSheetUI,
+    resetSheetUI
+}
