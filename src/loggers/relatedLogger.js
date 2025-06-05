@@ -44,6 +44,10 @@ function relatedLoggerWorkflow({
     const uiSheetName = relatedName + 'Logger'
     const appSearchInputsRangeName = uiSheetName + '_AppSearchInputs';
 
+    if (!applicationId) {
+        applicationId = getApplicationId(appSearchInputsRangeName);
+    }
+
     const modelInputsRangeName = uiSheetName + '_ModelInputs';
     const inputsMap = getInputsFromSheetUI(modelInputsRangeName);
     validateInputs(inputsMap, requiredFields);
