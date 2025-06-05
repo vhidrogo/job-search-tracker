@@ -39,6 +39,7 @@ function relatedLoggerWorkflow({
     requiredFields,
     subsetClearFields = [],
     defaultsMap = {},
+    prefixValues = [],
     suffixValues = []
 }) {
     const uiSheetName = relatedName + 'Logger'
@@ -52,7 +53,7 @@ function relatedLoggerWorkflow({
     const inputsMap = getInputsFromSheetUI(modelInputsRangeName);
     validateInputs(inputsMap, requiredFields);
 
-    const rowValues = generateRowValues(inputsMap, [applicationId], suffixValues);
+    const rowValues = generateRowValues(inputsMap, [...prefixValues, applicationId], suffixValues);
     const dataSheetName = relatedName + 's';
     appendRowToSheet(dataSheetName, rowValues);
 
