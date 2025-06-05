@@ -1,7 +1,7 @@
 const { NAMED_RANGES } = require("./constants");
 const { getNamedRange, setNamedRangeValue, findSheetRows } = require("./loggers/dataSheetUtils");
 const { findApplication } = require("./loggers/modelUtils");
-const { getInputsFromSheetUI, setInputsOnSheetUI } = require("./loggers/sheetUiUtils");
+const { getInputsFromSheetUI, setInputsOnSheetUI, resetSheetUI } = require("./loggers/sheetUiUtils");
 
 const OUTCOME_CONDITIONAL_FORMATTING = {
     Rejected: {
@@ -34,8 +34,16 @@ function onFindClick() {
     if (outcome === 'Considered') {
         const considerationDetails = getConsiderationDetails(applicationAttributes['ID']);
         outputConsiderationDetails(considerationDetails);
+    } else {
+        clearConsiderationDetails();
     }
 
+}
+
+function clearConsiderationDetails() {
+    resetSheetUI(NAMED_RANGES.ApplicationView.CONSIDERATION_DETAIL_OUTPUTS);
+    setNamedRangeValue(NAMED_RANGES.ApplicationView.JOB_DESCRIPTION_LINK, '');
+    setNamedRangeValue(NAMED_RANGES.ApplicationView.INTERVIEW_DOC_LINK, '');
 }
 
 function outputConsiderationDetails(considerationDetails) {
