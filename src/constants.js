@@ -16,4 +16,11 @@ const NAMED_RANGES = {
     }
 }
 
-module.exports = { NAMED_RANGES }
+const SHEET_NAMES = {
+    APPLICATIONS: 'Applications',
+}
+
+module.exports = {
+    NAMED_RANGES,
+    SHEET_NAMES,
+}
