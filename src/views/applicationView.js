@@ -23,7 +23,7 @@ const OUTCOME_CONDITIONAL_FORMATTING = {
     },
 }
 
-function onFindClick() {
+function onApplicationViewFindClick() {
     const searchInputs = getInputsFromSheetUI(NAMED_RANGES.ApplicationView.SEARCH_CRITERIA_INPUTS);
     const applicationAttributes = findApplication(...searchInputs.values());
 
