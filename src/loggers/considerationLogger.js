@@ -1,5 +1,5 @@
 const { formattedDate } = require("../utilities");
-const { getNamedRangeValue } = require("./dataSheetUtils");
+const { getNamedRangeValue } = require("./helpers/dataSheetHelpers");
 const { relatedLoggerWorkflow } = require("./relatedLogger");
 
 function onConsiderationLoggerLogClick() {

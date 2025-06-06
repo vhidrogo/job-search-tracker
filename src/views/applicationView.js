@@ -1,8 +1,8 @@
-const { NAMED_RANGES } = require("./constants");
-const { getNamedRange, setNamedRangeValue, findSheetRows, getNamedRangeValues } = require("./loggers/dataSheetUtils");
-const { findApplication } = require("./loggers/modelUtils");
-const { getInputsFromSheetUI, setInputsOnSheetUI, resetSheetUI } = require("./loggers/sheetUiUtils");
-const { to1DArray } = require("./utilities");
+const { NAMED_RANGES } = require("../constants");
+const { getNamedRange, setNamedRangeValue, findSheetRows, getNamedRangeValues } = require("../loggers/helpers/dataSheetHelpers");
+const { findApplication } = require("../loggers/helpers/modelHelpers");
+const { getInputsFromSheetUI, setInputsOnSheetUI, resetSheetUI } = require("../loggers/helpers/sheetUiHelpers");
+const { to1DArray } = require("../utilities");
 
 const OUTCOME_CONDITIONAL_FORMATTING = {
     Rejected: {
