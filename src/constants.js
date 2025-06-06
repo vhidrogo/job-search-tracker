@@ -10,6 +10,9 @@ const NAMED_RANGES = {
         LISTING_LINK: 'ApplicationView_ListingLink',
         OUTCOME: 'ApplicationView_Outcome',
         SEARCH_CRITERIA_INPUTS: 'ApplicationView_SearchCriteriaInputs',
+    },
+    CompanyView: {
+        COMPANY_NAME: 'CompanyView_CompanyName',
     }
 }
 
