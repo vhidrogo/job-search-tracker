@@ -1,3 +1,10 @@
+const METRIC_LABELS = {
+    CompanyView: {
+        APPLIED_COUNT: 'Applied Count',
+        REJECTION_COUNT: 'Rejection Count',
+    }
+}
+
 const NAMED_RANGES = {
     ApplicationView: {
         APPLICATION_DETAIL_OUTPUTS: 'ApplicationView_ApplicationDetailOutputs',
@@ -22,6 +29,7 @@ const SHEET_NAMES = {
 }
 
 module.exports = {
+    METRIC_LABELS,
     NAMED_RANGES,
     SHEET_NAMES,
 }
