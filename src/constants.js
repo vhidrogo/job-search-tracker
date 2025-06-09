@@ -1,3 +1,10 @@
+const METRIC_LABELS = {
+    CompanyView: {
+        APPLIED_COUNT: 'Applied Count',
+        REJECTION_COUNT: 'Rejection Count',
+    }
+}
+
 const NAMED_RANGES = {
     ApplicationView: {
         APPLICATION_DETAIL_OUTPUTS: 'ApplicationView_ApplicationDetailOutputs',
@@ -10,7 +17,20 @@ const NAMED_RANGES = {
         LISTING_LINK: 'ApplicationView_ListingLink',
         OUTCOME: 'ApplicationView_Outcome',
         SEARCH_CRITERIA_INPUTS: 'ApplicationView_SearchCriteriaInputs',
+    },
+    CompanyView: {
+        COMPANY_NAME: 'CompanyView_CompanyName',
+        LATEST_APPLICATIONS: 'CompanyView_LatestApplications',
+        METRICS: 'CompanyView_Metrics',
     }
 }
 
-module.exports = { NAMED_RANGES }
+const SHEET_NAMES = {
+    APPLICATIONS: 'Applications',
+}
+
+module.exports = {
+    METRIC_LABELS,
+    NAMED_RANGES,
+    SHEET_NAMES,
+}
