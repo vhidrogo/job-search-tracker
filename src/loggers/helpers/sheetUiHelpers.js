@@ -96,8 +96,6 @@ function setDefaults(inputsMap, defaults) {
  * @param {string} rangeName - The name of the range to write to. Must include headers in the first row.
  */
 function writeToNamedRangeWithHeaders(objects, rangeName) {
-    if (!objects.length) return;
-
     const range = getNamedRange(rangeName);
     const numRows = range.getNumRows();
     const numCols = range.getNumColumns();
