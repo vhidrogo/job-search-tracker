@@ -21,6 +21,7 @@ const NAMED_RANGES = {
     CompanyView: {
         COMPANY_NAME: 'CompanyView_CompanyName',
         LATEST_APPLICATIONS: 'CompanyView_LatestApplications',
+        METRICS: 'CompanyView_Metrics',
     }
 }
 
