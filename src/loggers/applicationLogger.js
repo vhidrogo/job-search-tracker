@@ -12,9 +12,7 @@ function onApplicationLoggerLogClick() {
 
 function logApplication() {
     const inputValues = getApplicationInputValues();
-    const formulas = generateReverseForeignKeyFormulas();
-    const rowValues = [...inputValues, ...formulas]
-    appendRowToSheet(CONFIG.SHEET_NAME, rowValues, insertId=true);
+    appendRowToSheet(CONFIG.SHEET_NAME, inputValues, insertId=true);
 }
 
 function getApplicationInputValues() {
@@ -52,18 +50,6 @@ function normalizeSalaryFields(inputsMap) {
             inputsMap.set(field, value * 1000);
         }
     }
-}
-
-function generateReverseForeignKeyFormulas() {
-    const relatedTables = [
-        'Rejections',
-        'Closures',
-        'Considerations'
-    ];
-    
-    return relatedTables.map(table =>
-        `=IF(ISNUMBER(MATCH(INDIRECT("A" & ROW()), ${table}_Application_ID, 0)), "Yes", "No")`
-    );
 }
 
 function resetApplicationLoggerUI() {

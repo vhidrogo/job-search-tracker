@@ -36,9 +36,6 @@ A normalized, event-driven tracking system designed to capture the full lifecycl
 | Resume Major Version | String  | Major version of resume applied with  |
 | Resume Minor Version | String  | Minor version of resume applied with  |
 | Notes                | String  | Miscellaneous notes to track          |
-| Rejected             | String  | "Yes" if the application is found in the "Rejections" table. |
-| Closed               | String  | "Yes" if the application is found in the "Closures" table. |
-| Considered           | String  | "Yes" if the application is found in the "Considerations" table. |
 
 ### Rejections
 | Field                | Type    | Description                           |
@@ -113,16 +110,6 @@ A normalized, event-driven tracking system designed to capture the full lifecycl
 | Role              | String  | Role this resume version applies to   |
 | Link              | String  | Link to the resume document           |
 | Changes Doc       | String  | Link to document detailing changes in this version |
-
-## Reverse Foreign Keys
-In the **Applications** table, additional columns have been introduced to track reverse foreign keys for related events. These columns use the `IF(ISNUMBER(MATCH()))` formula to check whether an application has corresponding records in the **Rejections** and **Considerations** tables. The result is displayed as "Yes" for any matches, simplifying reporting without having to duplicate data across tables.
-
-For example, the **Rejected** column in the **Applications** table uses the following formula:
-```excel
-=IF(ISNUMBER(MATCH(A2, Rejections_Application_ID, 0)), "Yes", "")
-```
-
-Where A2 refers to the Application ID and "Rejections_Application_ID" is named range referencing the `Application ID` column in `Rejections`. This approach allows easy summarization of related events and attributes, such as calculating rejection rates by job source or tracking application outcomes, without the need for heavy normalization.
 
 ## Relationships
 - Applications → Rejections (1:1)
