@@ -1,49 +1,48 @@
 const { NAMED_RANGES } = require("../constants");
+const { ApplicationStatus, getApplicationStatus } = require("../helpers/getApplicationStatus");
 const { getNamedRange, setNamedRangeValue, findSheetRows, getNamedRangeValues } = require("../loggers/helpers/dataSheetHelpers");
 const { findApplication } = require("../loggers/helpers/modelHelpers");
 const { getInputsFromSheetUI, setInputsOnSheetUI, resetSheetUI } = require("../loggers/helpers/sheetUiHelpers");
 const { to1DArray } = require("../utilities");
 
 const OUTCOME_CONDITIONAL_FORMATTING = {
-    Rejected: {
+    [ApplicationStatus.REJECTED]: {
         BACKGROUND: '#ea4335',
         FONT_COLOR: '#ffffff',
     },
-    Closed: {
+    [ApplicationStatus.CLOSED]: {
         BACKGROUND: '#b7b7b7',
         FONT_COLOR: '#000000',
     },
-    Considered: {
+    [ApplicationStatus.CONSIDERED]: {
         BACKGROUND: '#34a853',
         FONT_COLOR: '#000000',
     },
-    'No Response': {
+    [ApplicationStatus.NONE]: {
         BACKGROUND: '#ffffff',
         FONT_COLOR: '#000000',
     },
 }
 
 function onApplicationViewFindClick() {
+    clearInterviews();
+    clearConsiderationDetails();
+
     const searchInputs = getInputsFromSheetUI(NAMED_RANGES.ApplicationView.SEARCH_CRITERIA_INPUTS);
     const applicationAttributes = findApplication(...searchInputs.values());
 
     outputApplicationDetails(applicationAttributes);
 
-    const outcome = getOutcome(applicationAttributes);
+    const outcome = getApplicationStatus(applicationAttributes.ID);
     outputOutcome(outcome);
     
-    if (outcome === 'Considered') {
-        const applicationId = applicationAttributes['ID'];
-
-        const considerationDetails = getConsiderationDetails(applicationId);
+    if (outcome === ApplicationStatus.CONSIDERED) {
+        const considerationDetails = getConsiderationDetails(applicationAttributes.ID);
         outputConsiderationDetails(considerationDetails);
 
-        clearInterviews();
-        const interviews = getInterviews(applicationId);
-        if (interviews) outputInterviews(interviews);
         
-    } else {
-        clearConsiderationDetails();
+        const interviews = getInterviews(applicationAttributes.ID);
+        if (interviews) outputInterviews(interviews);
     }
 
 }
@@ -173,13 +172,6 @@ function outputOutcome(outcome) {
     cell.setValue(outcome);
     cell.setBackground(OUTCOME_CONDITIONAL_FORMATTING[outcome].BACKGROUND);
     cell.setFontColor(OUTCOME_CONDITIONAL_FORMATTING[outcome].FONT_COLOR);
-}
-
-function getOutcome(applicationAttributes) {
-    if (applicationAttributes['Rejected'] === 'x') return 'Rejected';
-    if (applicationAttributes['Closed'] === 'x') return 'Closed';
-    if (applicationAttributes['Considered'] === 'x') return 'Considered';
-    return 'No Response';
 }
 
 function outputApplicationDetails(applicationAttributes) {
