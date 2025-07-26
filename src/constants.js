@@ -27,6 +27,9 @@ const NAMED_RANGES = {
 
 const SHEET_NAMES = {
     APPLICATIONS: 'Applications',
+    CLOSURES: 'Closures',
+    CONSIDERATIONS: 'Considerations',
+    REJECTIONS: 'Rejections',
 }
 
 module.exports = {
