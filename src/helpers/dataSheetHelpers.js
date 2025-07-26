@@ -94,6 +94,29 @@ function getSheetData(sheetName) {
 }
 
 /**
+ * Retrieves all data from a specified column in a Google Sheets sheet, excluding the header row.
+ *
+ * @param {string} sheetName - The name of the sheet to retrieve data from.
+ * @param {string} columnName - The name of the column (as it appears in the header row) to extract.
+ * @returns {Array<string|number|boolean>} A 1D array containing the values in the specified column, excluding the header row.
+ * @throws {Error} If the specified column name is not found in the header row of the sheet.
+ */
+function getColumnDataFromSheet(sheetName, columnName) {
+    const sheet = getSheet(sheetName);
+    const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    const colIndex = headers.indexOf(columnName);
+
+    if (colIndex === -1) {
+        throw new Error(`Column '${columnName}' not found in sheet: ${sheetName}`);
+    }
+
+    const numRows = sheet.getLastRow() - 1;
+    if (numRows <= 0) return [];
+
+    return to1DArray(sheet.getRange(2, colIndex + 1, numRows, 1).getValues());
+}
+
+/**
  * Finds and returns rows from a sheet that match the provided criteria.
  *
  * @param {string} sheetName - The name of the sheet to search.
@@ -129,6 +152,7 @@ function generateRowValues(inputsMap, prefixValues = [], suffixValues = []) {
 
 module.exports = {
     findSheetRows,
+    getColumnDataFromSheet,
     getNamedRange,
     getNamedRangeValue,
     getNamedRangeValues,
