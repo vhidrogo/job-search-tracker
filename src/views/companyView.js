@@ -1,7 +1,7 @@
 const { NAMED_RANGES, SHEET_NAMES, METRIC_LABELS } = require("../constants");
 const { getApplicationStatus, ApplicationStatus } = require("../helpers/getApplicationStatus");
 const { getNamedRangeValue, findSheetRows } = require("../loggers/helpers/dataSheetHelpers");
-const { writeToNamedRangeWithHeaders, setInputsOnSheetUI } = require("../loggers/helpers/sheetUiHelpers");
+const { writeToNamedRangeWithHeaders, setInputsOnSheetUI } = require("../helpers/sheetUiHelpers");
 
 function onCompanyViewFindClick() {
     const company = getNamedRangeValue(NAMED_RANGES.CompanyView.COMPANY_NAME);
