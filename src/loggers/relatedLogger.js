@@ -1,3 +1,5 @@
+const { getNamedRangeValue, getSheetByName } = require("../helpers/dataSheetHelpers");
+
 function onRejectionLoggerLogClick() {
     const requiredFields = [
         'Rejection Source',
@@ -59,6 +61,11 @@ function relatedLoggerWorkflow({
 
     resetSheetUI(modelInputsRangeName, subsetClearFields, defaultsMap);
     resetSheetUI(appSearchInputsRangeName);
+
+    const hideAfterLogging = getNamedRangeValue(uiSheetName + '_HideAfterLogging');
+    if (hideAfterLogging === true) {
+        getSheetByName(uiSheetName).hideSheet();
+    }
 }
 
 function getApplicationId(searchInputsRangeName) {

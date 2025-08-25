@@ -150,11 +150,18 @@ function generateRowValues(inputsMap, prefixValues = [], suffixValues = []) {
   return [...prefixValues, ...inputValues, ...suffixValues];
 }
 
+function getSheetByName(sheetName) {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+    if (!sheet) throw new Error(`Sheet "${sheetName}" not found`);
+    return sheet;
+}
+
 module.exports = {
     findSheetRows,
     getColumnDataFromSheet,
     getNamedRange,
     getNamedRangeValue,
     getNamedRangeValues,
-    setNamedRangeValue
+    setNamedRangeValue,
+    getSheetByName,
 }
