@@ -78,7 +78,7 @@ function resetApplicationInputValues() {
         'Applied Date': '=today()',
         'Listing Job Title': '=ApplicationLogger_Role',
         'Resume Version': `=if(${CONFIG.OVERRIDE_RESUME_RANGE_NAME}="",ApplicationLogger_SuggestedResume,${CONFIG.OVERRIDE_RESUME_RANGE_NAME})`,
-        'Tailored': false,
+        'Tailored': true,
     }
 
     const inputsMap = getInputsFromSheetUI(CONFIG.INPUTS_RANGE_NAME);
