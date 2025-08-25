@@ -6,6 +6,10 @@ const METRIC_LABELS = {
 }
 
 const NAMED_RANGES = {
+    APPLICATION_LOGGER: {
+        COMPANY: 'ApplicationLogger_Company',
+        RESUME: 'ApplicationLogger_Resume',
+    },
     ApplicationView: {
         APPLICATION_DETAIL_OUTPUTS: 'ApplicationView_ApplicationDetailOutputs',
         APPLICATION_FUTURE_INTERVIEWS: 'ApplicationView_FutureInterviews',
@@ -17,6 +21,10 @@ const NAMED_RANGES = {
         LISTING_LINK: 'ApplicationView_ListingLink',
         OUTCOME: 'ApplicationView_Outcome',
         SEARCH_CRITERIA_INPUTS: 'ApplicationView_SearchCriteriaInputs',
+    },
+    DATA: {
+        RESUME_TEMPLATE_FILE_ID: 'Data_ResumeTemplateFileID',
+        TAILORED_RESUMES_DRIVE_FOLDER_ID: 'Data_TailoredResumesDriveFolderID',
     },
     CompanyView: {
         COMPANY_NAME: 'CompanyView_CompanyName',
