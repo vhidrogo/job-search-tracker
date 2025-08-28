@@ -1,4 +1,5 @@
 const { SHEET_NAMES } = require("../../constants");
+const { getApplicationStatus } = require("./getApplicationStatus");
 
 /**
  * Finds an application in the Applications sheet based on a required company name and optional sub-field criteria.
@@ -53,4 +54,23 @@ function findApplication(companyName, optionalSearchField, optionalSearchValue) 
     throw new Error('Multiple applications found. Refine your search criteria.');
 }
 
-module.exports = { findApplication }
+/**
+ * Updates the `Status` field of each application object in the given array
+ * by retrieving its current status using the application's `ID`.
+ *
+ * @param {Array<{ID: number, Status?: string}>} applications - 
+ *   An array of application objects. Each object must have an `ID` property.
+ *   A `Status` property will be added or updated on each object.
+ *
+ * @returns {void} This function mutates the input array by setting the `Status` property.
+ */
+function setApplicationStatusOnApplications(applications) {
+    applications.forEach(app => {
+        app.Status = getApplicationStatus(app.ID);
+    });
+}
+
+module.exports = {
+    findApplication,
+    setApplicationStatusOnApplications,
+}

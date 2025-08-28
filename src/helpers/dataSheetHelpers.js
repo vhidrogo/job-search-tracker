@@ -164,4 +164,5 @@ module.exports = {
     getNamedRangeValues,
     setNamedRangeValue,
     getSheetByName,
+    getSheetData,
 }
