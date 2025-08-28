@@ -30,6 +30,13 @@ const NAMED_RANGES = {
         COMPANY_NAME: 'CompanyView_CompanyName',
         LATEST_APPLICATIONS: 'CompanyView_LatestApplications',
         METRICS: 'CompanyView_Metrics',
+    },
+    LatestApplications: {
+        APPLICATION_STATUS: 'LatestApplications_ApplicationStatus',
+        APPLICATIONS: 'LatestApplications_Applications',
+        COUNT: 'LatestApplications_Count',
+        DESCENDING: 'LatestApplications_Descending',
+        SORT_FIELD: 'LatestApplications_SortField',
     }
 }
 
