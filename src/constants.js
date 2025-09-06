@@ -7,6 +7,7 @@ const METRIC_LABELS = {
 
 const NAMED_RANGES = {
     APPLICATION_LOGGER: {
+        ANALYST_RESUME_ENABLED: 'ApplicationLogger_AnalystResume',
         COMPANY: 'ApplicationLogger_Company',
         RESUME: 'ApplicationLogger_Resume',
     },
@@ -23,6 +24,7 @@ const NAMED_RANGES = {
         SEARCH_CRITERIA_INPUTS: 'ApplicationView_SearchCriteriaInputs',
     },
     DATA: {
+        RESUME_TEMPLATE_ANALYST_FILE_ID: 'Data_ResumeTemplateAnalystFileID',
         RESUME_TEMPLATE_FILE_ID: 'Data_ResumeTemplateFileID',
         TAILORED_RESUMES_DRIVE_FOLDER_ID: 'Data_TailoredResumesDriveFolderID',
     },

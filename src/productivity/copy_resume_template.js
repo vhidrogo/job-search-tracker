@@ -11,7 +11,13 @@ function copyResumeTemplate() {
     }
     setNamedRangeValue(NAMED_RANGES.APPLICATION_LOGGER.RESUME, '');
 
-    const templateId = getNamedRangeValue(NAMED_RANGES.DATA.RESUME_TEMPLATE_FILE_ID);
+    const isAnalystResume = getNamedRangeValue(NAMED_RANGES.APPLICATION_LOGGER.ANALYST_RESUME_ENABLED);
+
+    const templateRange = isAnalystResume
+        ? NAMED_RANGES.DATA.RESUME_TEMPLATE_ANALYST_FILE_ID
+        : NAMED_RANGES.DATA.RESUME_TEMPLATE_FILE_ID;
+
+    const templateId = getNamedRangeValue(templateRange);
     const folderId = getNamedRangeValue(NAMED_RANGES.DATA.TAILORED_RESUMES_DRIVE_FOLDER_ID);
     const fileName = `${formattedDate(new Date())} ${company}`;
 
