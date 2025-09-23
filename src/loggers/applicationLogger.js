@@ -80,7 +80,6 @@ function resetApplicationInputValues() {
     const defaults = {
         'Applied Date': '=today()',
         'Resume Version': `=if(${CONFIG.OVERRIDE_RESUME_RANGE_NAME}="",ApplicationLogger_SuggestedResume,${CONFIG.OVERRIDE_RESUME_RANGE_NAME})`,
-        'Tailored': true,
     }
 
     const inputsMap = getInputsFromSheetUI(CONFIG.INPUTS_RANGE_NAME);
