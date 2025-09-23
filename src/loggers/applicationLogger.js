@@ -3,7 +3,6 @@ const { NAMED_RANGES } = require("../constants");
 const CONFIG = {
     INPUTS_RANGE_NAME: 'ApplicationLogger_Inputs',
     SHEET_NAME: 'Applications',
-    OVERRIDE_RESUME_RANGE_NAME: 'ApplicationLogger_OverrideResume'
   };
 
 function onApplicationLoggerLogClick() {
@@ -55,7 +54,6 @@ function normalizeSalaryFields(inputsMap) {
 
 function resetApplicationLoggerUI() {
     resetApplicationInputValues();
-    getNamedRange(CONFIG.OVERRIDE_RESUME_RANGE_NAME).clearContent();
     getNamedRange(NAMED_RANGES.APPLICATION_LOGGER.COMPANY).activate();
 }
 
@@ -74,13 +72,12 @@ function resetApplicationInputValues() {
         'Missing Experience',
         'Notes',
         'Desired Salary',
+        'Resume Version',
         'Link'
     ]
 
     const defaults = {
         'Applied Date': '=today()',
-        'Resume Version': `=if(${CONFIG.OVERRIDE_RESUME_RANGE_NAME}="",ApplicationLogger_SuggestedResume,${CONFIG.OVERRIDE_RESUME_RANGE_NAME})`,
-        'Tailored': true,
     }
 
     const inputsMap = getInputsFromSheetUI(CONFIG.INPUTS_RANGE_NAME);
