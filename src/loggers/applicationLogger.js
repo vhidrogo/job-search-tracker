@@ -28,6 +28,7 @@ function validateRequiredApplicationFields(inputsMap) {
     const requiredFields = [
         'Job Source',
         'Location',
+        'Remote',
         'Role',
         'Listing Job Title',
         'Company',
