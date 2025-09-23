@@ -1,6 +1,7 @@
+const { NAMED_RANGES } = require("../constants");
+
 const CONFIG = {
     INPUTS_RANGE_NAME: 'ApplicationLogger_Inputs',
-    LISTING_JOB_TITLE_RANGE_NAME: 'ApplicationLogger_ListingJobTitle',
     SHEET_NAME: 'Applications',
     OVERRIDE_RESUME_RANGE_NAME: 'ApplicationLogger_OverrideResume'
   };
@@ -55,12 +56,14 @@ function normalizeSalaryFields(inputsMap) {
 function resetApplicationLoggerUI() {
     resetApplicationInputValues();
     getNamedRange(CONFIG.OVERRIDE_RESUME_RANGE_NAME).clearContent();
-    getNamedRange(CONFIG.LISTING_JOB_TITLE_RANGE_NAME).activate();
+    getNamedRange(NAMED_RANGES.APPLICATION_LOGGER.COMPANY).activate();
 }
 
 function resetApplicationInputValues() {
     const clearFields = [
+        'Level',
         'Specialization',
+        'Listing Job Title',
         'Company',
         'Yrs XP Min',
         'Salary Min (K)',
@@ -76,7 +79,6 @@ function resetApplicationInputValues() {
 
     const defaults = {
         'Applied Date': '=today()',
-        'Listing Job Title': '=ApplicationLogger_Role',
         'Resume Version': `=if(${CONFIG.OVERRIDE_RESUME_RANGE_NAME}="",ApplicationLogger_SuggestedResume,${CONFIG.OVERRIDE_RESUME_RANGE_NAME})`,
         'Tailored': true,
     }
