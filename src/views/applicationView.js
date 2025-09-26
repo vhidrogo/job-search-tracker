@@ -1,9 +1,12 @@
-const { NAMED_RANGES } = require("../constants");
+const { NAMED_RANGES, SHEET_NAMES } = require("../constants");
 const { ApplicationStatus, getApplicationStatus } = require("../helpers/getApplicationStatus");
 const { getNamedRange, setNamedRangeValue, findSheetRows, getNamedRangeValues } = require("../loggers/helpers/dataSheetHelpers");
 const { findApplication } = require("../loggers/helpers/modelHelpers");
 const { getInputsFromSheetUI, setInputsOnSheetUI, resetSheetUI } = require("../helpers/sheetUiHelpers");
 const { to1DArray } = require("../utilities");
+const { getSheetData } = require("../helpers/dataSheetHelpers");
+const { filter2DArrayRows } = require("../utils/filter2DArrayRows");
+const { convertArrayToObject } = require("../utils/convertArrayToObject");
 
 const OUTCOME_CONDITIONAL_FORMATTING = {
     [ApplicationStatus.REJECTED]: {
@@ -33,10 +36,11 @@ function onApplicationViewFindClick() {
 
     outputApplicationDetails(applicationAttributes);
 
-    const outcome = getApplicationStatus(applicationAttributes.ID);
-    outputOutcome(outcome);
+    const status = getApplicationStatus(applicationAttributes.ID);
+    const formatted_status = formatApplicationStatus(status, applicationAttributes.ID);
+    outputOutcome(status, formatted_status);
     
-    if (outcome === ApplicationStatus.CONSIDERED) {
+    if (status === ApplicationStatus.CONSIDERED) {
         const considerationDetails = getConsiderationDetails(applicationAttributes.ID);
         outputConsiderationDetails(considerationDetails);
 
@@ -45,6 +49,27 @@ function onApplicationViewFindClick() {
         if (interviews) outputInterviews(interviews);
     }
 
+}
+
+function formatApplicationStatus(status, applicationID) {
+    let details;
+    if (status === ApplicationStatus.CLOSED) {
+        const closureObj = getRelatedObject(SHEET_NAMES.CLOSURES, applicationID);
+        details = `Reason = ${closureObj['Reason']}`;
+    } else if (status === ApplicationStatus.REJECTED) {
+        const rejectionObj = getRelatedObject(SHEET_NAMES.REJECTIONS, applicationID);
+        const date = Utilities.formatDate(rejectionObj['Status Date'], Session.getScriptTimeZone(), 'MM/dd/yyyy');
+        details = `Status Date = ${date}`;
+    } else {
+        return status;
+    }
+
+    return `${status}: ${details}`;
+}
+
+function getRelatedObject(relatedSheet, applicationID) {
+    const [headers, ...data] = filter2DArrayRows(getSheetData(relatedSheet), { 'Application ID': applicationID});
+    return convertArrayToObject(headers, data[0]);
 }
 
 /**
@@ -167,11 +192,11 @@ function getConsiderationDetails(applicationId) {
     return findSheetRows('Considerations', criteria)[0];
 }
 
-function outputOutcome(outcome) {
+function outputOutcome(status, formatted_status) {
     const cell = getNamedRange(NAMED_RANGES.ApplicationView.OUTCOME);
-    cell.setValue(outcome);
-    cell.setBackground(OUTCOME_CONDITIONAL_FORMATTING[outcome].BACKGROUND);
-    cell.setFontColor(OUTCOME_CONDITIONAL_FORMATTING[outcome].FONT_COLOR);
+    cell.setValue(formatted_status);
+    cell.setBackground(OUTCOME_CONDITIONAL_FORMATTING[status].BACKGROUND);
+    cell.setFontColor(OUTCOME_CONDITIONAL_FORMATTING[status].FONT_COLOR);
 }
 
 function outputApplicationDetails(applicationAttributes) {
