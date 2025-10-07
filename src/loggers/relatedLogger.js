@@ -59,8 +59,11 @@ function relatedLoggerWorkflow({
     const dataSheetName = relatedName + 's';
     appendRowToSheet(dataSheetName, rowValues);
 
-    resetSheetUI(modelInputsRangeName, subsetClearFields, defaultsMap);
-    resetSheetUI(appSearchInputsRangeName);
+    const clearInputsAfterLogging = getNamedRangeValue(uiSheetName + '_ClearInputsAfterLogging');
+    if (clearInputsAfterLogging === true) {
+        resetSheetUI(modelInputsRangeName, subsetClearFields, defaultsMap);
+        resetSheetUI(appSearchInputsRangeName);
+    }
 
     const hideAfterLogging = getNamedRangeValue(uiSheetName + '_HideAfterLogging');
     if (hideAfterLogging === true) {
