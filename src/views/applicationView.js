@@ -60,6 +60,10 @@ function formatApplicationStatus(status, applicationID) {
         const rejectionObj = getRelatedObject(SHEET_NAMES.REJECTIONS, applicationID);
         const date = Utilities.formatDate(rejectionObj['Status Date'], Session.getScriptTimeZone(), 'MM/dd/yyyy');
         details = `Status Date = ${date}`;
+    } else if (status === ApplicationStatus.CONSIDERED) {
+        const consideredObj = getRelatedObject(SHEET_NAMES.CONSIDERATIONS, applicationID);
+        const dateInitiated = Utilities.formatDate(consideredObj['Date Initiated'], Session.getScriptTimeZone(), 'MM/dd/yyyy');
+        details = `Date Initiated = ${dateInitiated}`;
     } else {
         return status;
     }
