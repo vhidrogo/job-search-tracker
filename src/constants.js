@@ -7,9 +7,9 @@ const METRIC_LABELS = {
 
 const NAMED_RANGES = {
     APPLICATION_LOGGER: {
-        ANALYST_RESUME_ENABLED: 'ApplicationLogger_AnalystResume',
         COMPANY: 'ApplicationLogger_Company',
         RESUME: 'ApplicationLogger_Resume',
+        RESUME_TEMPLATE: 'ApplicationLogger_ResumeTemplate',
     },
     ApplicationView: {
         APPLICATION_DETAIL_OUTPUTS: 'ApplicationView_ApplicationDetailOutputs',
